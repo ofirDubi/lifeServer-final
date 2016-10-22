@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/textHolder">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Choose Your Gender"
+            android:id="@+id/textView"
+            android:textSize="35dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal|bold"
+            android:layout_gravity="bottom"
+            android:textColor="@color/nice"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/textHolder"
+        android:id="@+id/frameLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivMan"
+            android:layout_gravity="center"
+            android:background="@drawable/male"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivWeman"
+            android:layout_gravity="center"
+            android:background="@drawable/female"/>
+    </FrameLayout>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/age"
+        android:hint="Enter your age"
+        android:background="@drawable/rounded_corner"
+        android:inputType="number"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/female"
+        android:layout_alignEnd="@+id/male" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Female"
+        android:id="@+id/female"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/rounded_corner"
+        android:textColor="@color/colorPrimary"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Male"
+        android:id="@+id/male"
+        android:layout_alignBottom="@+id/female"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/rounded_corner"
+        android:textColor="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/age"
+        android:paddingTop="16dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/btnSub"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_corner_chat"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+</RelativeLayout>

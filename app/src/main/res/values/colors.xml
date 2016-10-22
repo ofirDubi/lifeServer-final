@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sinch_purple">#ff63029d</color>
+    <color name="off_white">#fffafafa</color>
+    <color name="dark_gray">#ffb3b3b3</color>
+    <color name="very_dark_gray">#636363</color>
+    <color name="Blue">#70adf5</color>
+    <color name="signBack">#91a8e1</color>
+    <color name="niceGreen">#70f75b</color>
+    <color name="white">#ffffff</color>
+    <color name="nice">#da7676</color>
+    <color name="blue">#001aff</color>
+    <color name="colorPrimary">#8BC34A</color>
+    <color name="colorPrimaryDark">#689F38</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="back">#9e7985</color>
+</resources>

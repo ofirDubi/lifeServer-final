@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.user.navigatelifesaver.Chat">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="16.75"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="80dp">
+
+                <TextView
+                    android:id="@+id/firstTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="6"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="16dp"
+                    android:text="Tinnitus is the hearing of sound when no external sound is present. While often described as a ringing, it may also sound like a clicking, hiss or roaring. Rarely, unclear voices or music are heard. The sound may be soft or loud, low pitched or high pitched and appear to be coming from one ear or both. Most of the time, it comes on gradually. In some people, the sound causes depression, anxiety or interferes with concentration."
+                    android:textColor="#000"
+                    android:paddingBottom="16dp" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginTop="6.5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_bg1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_alignBottom="@+id/layout1">
+
+                <TextView
+                    android:id="@+id/secondTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="6"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="16dp"
+                    android:text="Does significantly hurt your head, neck or ears lately?"
+                    android:textColor="#000"
+                    android:paddingBottom="20dp" />
+
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginTop="6.5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_bg1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layout3"
+                android:layout_below="@+id/layout2">
+
+                <TextView
+                    android:id="@+id/thirdTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="6"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="16dp"
+                    android:text="Okay, sorry to hear that. Head injury may damage the internal structure of the ear and result in the emergence of tinnitus. You should contact your doctor to diagnose your condition! But in spite hit by your head, you may be suffering from tinnitus due to some other reason.Because of certain reasons for tinnitus more typical of the elderly, following our question relates to your age. Are you older than 55?"
+                    android:textColor="#000" />
+
+                <ImageView
+                    android:id="@+id/iv12"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginTop="6.5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_bg1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/layout3"
+                android:id="@+id/layout4">
+
+                <TextView
+                    android:id="@+id/forthTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="16dp"
+                    android:text="Okay, you may be suffering from a phenomenon called Presbycusis, age-related hearing loss, when this condition may also appear as tinnitus (although the exact explanation of the relationship between the two phenomena is not clear). Thus, according to the example previously discussed, ear wax buildup may damage the quality of hearing and tinnitus stir. Does recently exposed to noise was so strong that feeling of discomfort at the moment? Were you exposed to loud noise over a long period of time?"
+                    android:textColor="#000" />
+
+                <ImageView
+                    android:id="@+id/iv123"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginTop="6.5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_bg1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/layout4"
+                android:id="@+id/layout5">
+
+                <TextView
+                    android:id="@+id/fifthTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="16dp"
+                    android:text="You should speek to your doctor. Do you want to speek with one of our doctors ?"
+                    android:textStyle="normal|bold"
+                    android:textColor="#000" />
+
+                <ImageView
+                    android:id="@+id/iv1234"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_marginTop="6.5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_bg1" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/signBack"
+        android:id="@+id/buttonsHolder">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Yes, significant damage"
+            android:id="@+id/button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@color/back"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I did not had any recent injury"
+            android:id="@+id/button2"
+            android:layout_above="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@color/back"/>
+    </LinearLayout>
+</LinearLayout>
