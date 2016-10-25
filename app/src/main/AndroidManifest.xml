@@ -43,6 +43,10 @@
             android:theme="@style/AppTheme.CustomTheme">
 
         </activity>
+        <activity android:name=".PopDoctor"
+            android:theme="@style/AppTheme.CustomTheme1">
+
+        </activity>
     </application>
 
 </manifest>

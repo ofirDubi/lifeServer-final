@@ -1,5 +1,6 @@
 package com.example.user.navigatelifesaver;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ public class signUp extends AppCompatActivity {
     String encodedImage = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABuUlEQVR42u2bvUoEQRCEZ8XcSANBxdjoQDA6fAHBzBe50NhQEHwS4TAXI8H0YkHBQCOf4Iy7V6at3XFL6PqyudsZapqunp+968r/Yw0+340Zb4M9WzYKAFsAm8g/U2A8ul4Ggs/AwZf1/ukzQAFgC2AzRQ2orsM9z88vrcCtqwL19xPs1wwz5/QZoACwBbDZbDAG5nGP83x5BD0P9vekzwAFgC2AzZAaAO3dex71RJ7/wvpH674nfQYoAGwBbH5zFqh6frY4MO393W3TPtzbqQ5+czvDFMeeh0ifAQoAWwCbn2pA1fPn18emHXn85e2j+r3v36sJgefRs4HuBB0KAFsAm66Ano/wnn54Wpk2vE+4uLcfgGcL3QkGKABsAWzg+wB03T89OYKe743f2POe9BmgALAFsIFrALquo2cBP34p2NmggO8702eAAsAWwGb0u8HX90/TjvYJaI1o7XlP+gxQANgC2DS/Eww9HXC3eLYCG3vekz4DFAC2ADaj3w36muD3BR5/dpja8570GaAAsAWwGeIv7DdCkYCJPe9JnwEKAFsAmxZ+Q//n9xcaBpM+AxQAtgAhhGDyDambbz+Tl7XQAAAAAElFTkSuQmCC";
     ImageView imageView;
     RadioGroup type;
+    String doctorType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +67,20 @@ public class signUp extends AppCompatActivity {
 
                 }
 
-                thread.start();
-                Intent intent = new Intent(signUp.this, MainActivity.class);
-                intent.putExtra("userID", USERNAME);
 
-                startActivity(intent);
+                if (user_type.equals("d")){
+                    Intent intent = new Intent(signUp.this, PopDoctor.class);
+
+                    startActivityForResult(intent, 0);
+                }else{
+                    thread.start();
+                    startActivity(new Intent (signUp.this, MainActivity.class));
+                }
+
+
+
+
+
             }
         });
         choose_image.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +98,18 @@ public class signUp extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == 0) {
+            if(resultCode == Activity.RESULT_OK){
+              doctorType =data.getStringExtra("doctorType");
+                thread.start();
+                startActivity(new Intent (signUp.this, MainActivity.class));
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Log.d("doctor type failed", "DOCTOR TYPE FAILED");
+            }
+        }
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -122,6 +145,9 @@ public class signUp extends AppCompatActivity {
                 Log.d("BITMAP", BitMapToString(bitmap));
                 Log.d("usernane", username.getText().toString());
                 Log.d("password", password.getText().toString());
+                if(user_type.equals("d")){
+                    Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap),doctorType ));
+                }
                 Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -132,8 +158,8 @@ public class signUp extends AppCompatActivity {
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
         byte [] b=baos.toByteArray();
-        String temp=Base64.encodeToString(b, Base64.URL_SAFE);
-        return temp;
+        return Base64.encodeToString(b, Base64.URL_SAFE);
+
     }
 }
 

@@ -31,6 +31,23 @@ public class ServerRequest {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
+    public String user_sign_up( String type, String username, String password, String bitmap , String doctorType) throws IOException {
+        RequestBody body =  new FormBody.Builder()
+                .add("t", type)
+                .add("u", username)
+                .add("p", password)
+                .add("b", bitmap)
+                .add("a" , "16")
+                .add("g", "m")
+                .add("dt", doctorType)
+                .build();
+        Request request = new Request.Builder()
+                .url(SERVER +"signup")
+                .post(body)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
 
     public String user_sign_up( String type, String username, String password, String bitmap) throws IOException {
         RequestBody body =  new FormBody.Builder()
