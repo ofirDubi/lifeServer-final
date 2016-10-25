@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import static com.example.user.navigatelifesaver.R.id.imageView;
+
 /**
  * Created by ofir on 10/24/2016.
  */
@@ -22,9 +24,17 @@ public class PopDoctor extends Activity{
 
     String Type;
     ListView type_list;
-    ChatViewAdapter adapter;
-    ArrayList<String> type_names = new ArrayList<String>();
-    Button btnCamera;
+    String[] ocupations = {
+            "general",
+            "head",
+            "skin",
+            "otolaryngologist",
+            "Internal medicine",
+            "pediatrician",
+            "Done"
+    }   ;
+    int[] imageId;
+    ArrayList<String> selected_types = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,26 +49,51 @@ public class PopDoctor extends Activity{
         Log.d("GOT HERE1", "GOT HERE1");
 
         getWindow().setLayout((int) (width * .6), (int) (height * .4));
-        type_list = (ListView)findViewById(R.id.typeList);
+        int[] imageId = new int[ocupations.length];
+        for(int i=0; i<imageId.length; i++){
+            if(i !=imageId.length-1){
+                imageId[i] = R.drawable.check_icon;
+            }else{
+                imageId[i] = R.drawable.go;
+            }
+        }
 
-        adapter = new ChatViewAdapter(this, R.layout.user_list_item, type_names);
+        final DoctorSelectListAdapter adapter = new
+                DoctorSelectListAdapter(PopDoctor.this, ocupations, imageId);
+        type_list=(ListView)findViewById(R.id.typeList);
         type_list.setAdapter(adapter);
-
-        adapter.add("general");
-        adapter.add("head");
-        adapter.add("skin");
-        adapter.add("otolaryngologist");
-        adapter.add("Internal medicine");
-        adapter.add("pediatrician");
 
         type_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Log.d("DOCTOR TYPE SELECTED: ", type_names.get(position));
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("DoctorType", type_names.get(position));
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
+
+                if(ocupations[position].equals("Done")){
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("DoctorTypes", selected_types);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }else{
+
+                    ImageView imageView = (ImageView) view.findViewById(R.id.img);
+                    if(adapter.is_added[position] == true){
+                        imageView.setVisibility(View.INVISIBLE);
+                        adapter.is_added[position] = false;
+                        selected_types.remove(ocupations[position]);
+                        Log.d("REMOVED TYPE", ocupations[position]);
+
+
+                    }else if(adapter.is_added[position] == false){
+                        imageView.setVisibility(View.VISIBLE);
+                        adapter.is_added[position] = true;
+                        selected_types.add(ocupations[position]);
+
+                        Log.d("ADDED TYPE", ocupations[position]);
+                    }
+
+
+                }
+
             }
         });
 

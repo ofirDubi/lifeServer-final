@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class signUp extends AppCompatActivity {
@@ -34,7 +35,7 @@ public class signUp extends AppCompatActivity {
     String encodedImage = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABuUlEQVR42u2bvUoEQRCEZ8XcSANBxdjoQDA6fAHBzBe50NhQEHwS4TAXI8H0YkHBQCOf4Iy7V6at3XFL6PqyudsZapqunp+968r/Yw0+340Zb4M9WzYKAFsAm8g/U2A8ul4Ggs/AwZf1/ukzQAFgC2AzRQ2orsM9z88vrcCtqwL19xPs1wwz5/QZoACwBbDZbDAG5nGP83x5BD0P9vekzwAFgC2AzZAaAO3dex71RJ7/wvpH674nfQYoAGwBbH5zFqh6frY4MO393W3TPtzbqQ5+czvDFMeeh0ifAQoAWwCbn2pA1fPn18emHXn85e2j+r3v36sJgefRs4HuBB0KAFsAm66Ano/wnn54Wpk2vE+4uLcfgGcL3QkGKABsAWzg+wB03T89OYKe743f2POe9BmgALAFsIFrALquo2cBP34p2NmggO8702eAAsAWwGb0u8HX90/TjvYJaI1o7XlP+gxQANgC2DS/Eww9HXC3eLYCG3vekz4DFAC2ADaj3w36muD3BR5/dpja8570GaAAsAWwGeIv7DdCkYCJPe9JnwEKAFsAmxZ+Q//n9xcaBpM+AxQAtgAhhGDyDambbz+Tl7XQAAAAAElFTkSuQmCC";
     ImageView imageView;
     RadioGroup type;
-    String doctorType;
+    ArrayList<String> doctorTypes = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,9 +101,9 @@ public class signUp extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == 0) {
+        if (requestCode == 0) { // the pop up window of type selection
             if(resultCode == Activity.RESULT_OK){
-              doctorType =data.getStringExtra("doctorType");
+              doctorTypes =data.getStringArrayListExtra("doctorType");
                 thread.start();
                 startActivity(new Intent (signUp.this, MainActivity.class));
             }
@@ -111,6 +112,7 @@ public class signUp extends AppCompatActivity {
             }
         }
 
+        // the image pick
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -146,7 +148,7 @@ public class signUp extends AppCompatActivity {
                 Log.d("usernane", username.getText().toString());
                 Log.d("password", password.getText().toString());
                 if(user_type.equals("d")){
-                    Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap),doctorType ));
+                    Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap),doctorTypes.get(0) ));
                 }
                 Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap)));
             } catch (Exception e) {

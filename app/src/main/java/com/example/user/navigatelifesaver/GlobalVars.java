@@ -2,6 +2,8 @@ package com.example.user.navigatelifesaver;
 
 import android.app.Application;
 
+import java.util.ArrayList;
+
 /**
  * Created by ofir on 22/10/2016.
  */
@@ -10,6 +12,7 @@ public class GlobalVars extends Application {
     private String USERNAME;
     private boolean isDiagnosed;
     private String Type;
+
     public String getUSERNAME() {
         return USERNAME;
     }
