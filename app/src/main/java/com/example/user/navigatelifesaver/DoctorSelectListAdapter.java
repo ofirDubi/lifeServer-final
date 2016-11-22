@@ -5,6 +5,8 @@ package com.example.user.navigatelifesaver;
  */
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +41,7 @@ private final int[] imageId;
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.list_single, null, true);
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-
+        rowView.setBackgroundColor(Color.WHITE);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         txtTitle.setText(ocupation[position]);
         Log.d("INITIATE LIST VIEW", ocupation[position]);
@@ -47,6 +49,7 @@ private final int[] imageId;
 
         if(!ocupation[position].equals("Done") && !is_added[position]) {
             imageView.setVisibility(View.INVISIBLE);
+            rowView.getBackground().setColorFilter(Color.parseColor("#99ff99"), PorterDuff.Mode.LIGHTEN);
             Log.d("MADE INVISIBLE", ocupation[position]);
         }
         return rowView;

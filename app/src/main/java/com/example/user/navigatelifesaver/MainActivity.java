@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup type;
     String user_type = "p";
     GlobalVars globalVars;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +51,59 @@ public class MainActivity extends AppCompatActivity {
                     if(type_selected.getText().toString().equals("Patient")){
                         user_type = "p";
                         Log.d("type select", "PATIENT SELECTED");
-                    }else{
+                    }else {
                         user_type = "d";
                         Log.d("type select", "DOCTOR SELECTED");
 
                     }
-                    thread.start();
+                    if(thread.getState() == Thread.State.NEW){
+                        thread.start();
 
+                    }else{
+                        Log.d("thread starting", "thread startig another time");
+                        thread.interrupt();
+                        thread = new Thread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                try {
+                                    String response;
+                                    response = serverRequest.log_in(user_type, username.getText().toString(), userpassword.getText().toString());
+                                    Log.d("Sended request", response);
+                                    if(response.equals("true")){
+                                        globalVars.setUSERNAME(username.getText().toString());
+                                        if(user_type.equals("p")){
+                                            globalVars.setType("patient");
+                                            startActivity(new Intent(MainActivity.this, startApp.class).putExtra("userID", username.getText().toString()));
+                                            return;
+                                        }else{
+                                            globalVars.setType("doctor");
+                                            startActivity(new Intent(MainActivity.this, PatientPick.class).putExtra("userID", username.getText().toString()));
+                                            return;
+                                        }
+
+                                    }
+                                    else{
+                                        Log.d("Wrong username", "Wrong usernam");
+                                        username.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                                        userpassword.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                                        Toast.makeText(getApplicationContext(), "wrong username/password ", Toast.LENGTH_LONG).show();
+                                        Log.d("Wrong username", "Wrong usernam");
+                                        return;
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                            }
+
+                        });
+                        thread.start();
+                    }
                     Toast.makeText(getApplicationContext(), "checking user ", Toast.LENGTH_LONG).show();
+
 
 
 
@@ -80,10 +126,12 @@ public class MainActivity extends AppCompatActivity {
                     if(user_type.equals("p")){
                         globalVars.setType("patient");
                         startActivity(new Intent(MainActivity.this, startApp.class).putExtra("userID", username.getText().toString()));
-
+                        return;
                     }else{
                         globalVars.setType("doctor");
-                        startActivity(new Intent(MainActivity.this, PatientPick.class).putExtra("userID", username.getText().toString()));                    }
+                        startActivity(new Intent(MainActivity.this, PatientPick.class).putExtra("userID", username.getText().toString()));
+                        return;
+                    }
 
                 }
                else{
@@ -92,11 +140,12 @@ public class MainActivity extends AppCompatActivity {
                    userpassword.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                    Toast.makeText(getApplicationContext(), "wrong username/password ", Toast.LENGTH_LONG).show();
                     Log.d("Wrong username", "Wrong usernam");
-
+                    return;
                }
 
             } catch (Exception e) {
                 e.printStackTrace();
+                return;
             }
         }
 

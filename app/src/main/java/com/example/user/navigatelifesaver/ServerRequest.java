@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -23,23 +24,26 @@ import okhttp3.Response;
  */
 public class ServerRequest {
 
-    String SERVER =  "https://d0dce5be.ngrok.io/";
+    String SERVER =  "https://e534c2aa.ngrok.io/";
     String value = "";
     Boolean check_request = false;
-    Patient[] patient_list;
+    //Patient[] patient_list;
+    ArrayList<Patient> patient_list;
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
+    OkHttpClient client = new OkHttpClient();
+    //client.setConnectTimeout(30, TimeUnit.SECONDS); // connect timeout
+    //client.setReadTimeout(30, TimeUnit.SECONDS);    // socket timeout
     public String user_sign_up( String type, String username, String password, String bitmap , String doctorType) throws IOException {
+        Log.d("DOCTORSINGEDUP", "******************************");
         RequestBody body =  new FormBody.Builder()
                 .add("t", type)
                 .add("u", username)
                 .add("p", password)
                 .add("b", bitmap)
-                .add("a" , "16")
-                .add("g", "m")
-                .add("dt", doctorType)
+                .add("c", doctorType)
                 .build();
         Request request = new Request.Builder()
                 .url(SERVER +"signup")
@@ -100,7 +104,7 @@ public class ServerRequest {
                 .build();
         Response response = client.newCall(request).execute();
 
-       return response.body().string();
+        return response.body().string();
     }
 
 
@@ -119,7 +123,6 @@ public class ServerRequest {
         return response.body().string();
     }
 
-    OkHttpClient client = new OkHttpClient();
 
     public String add_diagnosis(String username, String category, String diagnosis) throws IOException {
         RequestBody body =  new FormBody.Builder()
@@ -137,10 +140,10 @@ public class ServerRequest {
         return response.body().string();
     }
 
-    public void doctor_view_setup() {
+    public void doctor_view_setup(String username) {
         try
         {
-            value = req( SERVER + "general");
+            value = req( SERVER + username);
 
             Log.d("RESPONSE", "this is the responce in json from server: " + value);
             JSONtoPatient(value);
@@ -166,14 +169,17 @@ public class ServerRequest {
     }
 
 
-    private Patient[] JSONtoPatient(String message){
+    private ArrayList<Patient> JSONtoPatient(String message){
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         try {
 
-            patient_list = mapper.readValue(message, Patient[].class);
-            Log.d("Patient image", patient_list[0].getImageBitmap());
+            patient_list = mapper.readValue(message,
+                    mapper.getTypeFactory().constructCollectionType(ArrayList.class,
+                            Patient.class) );
+            Log.d("Patient image", patient_list.get(0).getImageBitmap());
+            Log.d("PATIENT NAME", patient_list.get(0).getName());
             Log.d("JSON convertion", " ################ success ###########");
             return patient_list;
         } catch(JsonGenerationException e){

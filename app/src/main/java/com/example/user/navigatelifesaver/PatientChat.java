@@ -68,6 +68,7 @@ public class PatientChat extends AppCompatActivity {
             public void onClick(View view) {
                 MESSAGE_CONTENT = message_content.getText().toString();
                 send_message();
+                message_content.setText("");
             }
         });
 

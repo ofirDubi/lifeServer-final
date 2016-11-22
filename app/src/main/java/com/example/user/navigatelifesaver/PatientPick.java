@@ -1,5 +1,4 @@
 package com.example.user.navigatelifesaver;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,9 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FilterInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import at.markushi.ui.CircleButton;
 
@@ -60,7 +57,7 @@ public class PatientPick extends AppCompatActivity {
 
             if(load_complite){
                 setPatient();
-            break;
+                break;
             }
 
         }
@@ -86,30 +83,83 @@ public class PatientPick extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-            add_chat = true;
+                Thread accept_thread =  new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String res = null;
+                        try {
+                            res = "";
+                            if(srequest.patient_list.size() !=0){
+
+                                res = srequest.add_to_chat(  USERNAME, srequest.patient_list.get((patient_num+1)%srequest.patient_list.size()).getName());
+                                Log.d("Patient added to chat", "patient '" + patient_name.getText().toString() +"' was added");
+                                add_chat = true;
+                                srequest.patient_list.remove((patient_num+1)%srequest.patient_list.size());
+                                if(srequest.patient_list.size() != 0){
+                                    patient_num = patient_num%srequest.patient_list.size();
+
+                                }else{
+                                    patient_num = 0;
+                                }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setPatient();
+                                    }
+                                });
+                            }else{
+//                                res = srequest.add_to_chat(  USERNAME, srequest.patient_list.get((patient_num-1)%(srequest.patient_list.size()+1)).getName());
+//                                 Log.d("Patient added to chat", "patient '" + patient_name.getText().toString() +"' was added");
+                            }
+
+                        } catch (IOException e) {
+                            Log.d("ERROR ACCORED", "error accored on thread");
+                            e.printStackTrace();
+                        }
+                        Log.d("Add was made", res.toString());
+                        if(srequest.patient_list.size() != 0 ){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(PatientPick.this, "patient: " + srequest.patient_list.get((patient_num-1)%srequest.patient_list.size()).getName() + " was added to chat",
+                                            Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            });
+                        }
+
+                    }
+                });
+                accept_thread.start();
 
 
             }
         });
     }
-       void setPatient (){
-           if(srequest.patient_list[patient_num] != null){
-               patient_name.setText("Patient's name: "+ srequest.patient_list[patient_num].getName());
-               patient_age.setText("Patient's age: " + srequest.patient_list[patient_num].getAge());
-               diagnosis.setText("Diagnosis is :" + srequest.patient_list[patient_num].getDiagnosis());
-           }
+    void setPatient (){
+        if(srequest.patient_list.size() !=0 && srequest.patient_list !=null){
+            patient_name.setText("Patient's name: "+ srequest.patient_list.get(patient_num).getName());
+            patient_age.setText("Patient's age: " + srequest.patient_list.get(patient_num).getAge());
+            diagnosis.setText("Diagnosis is :" + srequest.patient_list.get(patient_num).getDiagnosis());
+            if(!srequest.patient_list.get(patient_num).getImageBitmap().equals(null)){
+                byte[] decodedString = Base64.decode(srequest.patient_list.get(patient_num).getImageBitmap(), Base64.URL_SAFE );
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                patient_picture.setImageBitmap(decodedByte);
+            }
+            patient_num = (patient_num+1)%srequest.patient_list.size();
 
-           if(!srequest.patient_list[patient_num].getImageBitmap().equals(null)){
-               byte[] decodedString = Base64.decode(srequest.patient_list[patient_num].getImageBitmap(), Base64.URL_SAFE );
-               Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-               patient_picture.setImageBitmap(decodedByte);
-           }else{
-               //patient_picture.setImageResource(R.drawable.old_man);
+        }else{
+            patient_picture.setVisibility(View.INVISIBLE);
+            patient_name.setText("No patients to show");
+            patient_age.setText("");
+            diagnosis.setText("");
 
-           }
-           patient_num = (patient_num+1)%srequest.patient_list.length;
+        }
 
-       }
+
+
+
+    }
 
     Thread thread = new Thread(new Runnable()
     {
@@ -118,23 +168,11 @@ public class PatientPick extends AppCompatActivity {
         {
             try
             {
-                srequest.doctor_view_setup();
+                srequest.doctor_view_setup(USERNAME);
                 load_complite = true;
-                while(true){
-                    if(add_chat){
-                        String res = srequest.add_to_chat(  USERNAME, srequest.patient_list[(patient_num-1)%srequest.patient_list.length].getName());
-                        Log.d("Add was made", res.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(PatientPick.this, "patient: " + srequest.patient_list[(patient_num-1)%srequest.patient_list.length].getName() + " was added to chat",
-                                        Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                        });
-                        add_chat = false;
-                    }
-                }
+
+
+
 
             }
 
@@ -145,31 +183,6 @@ public class PatientPick extends AppCompatActivity {
             }
         }
     });
-    static class FlushedInputStream extends FilterInputStream {
-        public FlushedInputStream(InputStream inputStream) {
-            super(inputStream);
-        }
 
-        @Override
-        public long skip(long n) throws IOException {
-            long totalBytesSkipped = 0L;
-            while (totalBytesSkipped < n) {
-                long bytesSkipped = in.skip(n - totalBytesSkipped);
-                if (bytesSkipped == 0L) {
-                    int b = read();
-                    if (b < 0) {
-                        break;  // we reached EOF
-                    } else {
-                        bytesSkipped = 1; // we read one byte
-                    }
-                }
-                totalBytesSkipped += bytesSkipped;
-            }
-            return totalBytesSkipped;
-        }
-    }
 
 }
-
-
-

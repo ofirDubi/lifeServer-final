@@ -2,20 +2,15 @@ package com.example.user.navigatelifesaver;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-
-import static com.example.user.navigatelifesaver.R.id.imageView;
 
 /**
  * Created by ofir on 10/24/2016.
@@ -71,6 +66,7 @@ public class PopDoctor extends Activity{
 
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("DoctorTypes", selected_types);
+                    returnIntent.putExtra("Type", selected_types.get(0));
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }else{

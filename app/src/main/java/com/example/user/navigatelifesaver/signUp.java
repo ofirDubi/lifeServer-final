@@ -24,7 +24,8 @@ import java.util.ArrayList;
 
 
 public class signUp extends AppCompatActivity {
-    String USERNAME;
+    String doctor_type;
+
     ServerRequest serverRequest;
     private static int RESULT_LOAD_IMAGE = 1;
     Button choose_image;
@@ -74,7 +75,38 @@ public class signUp extends AppCompatActivity {
 
                     startActivityForResult(intent, 0);
                 }else{
-                    thread.start();
+
+                    if(thread.getState() == Thread.State.NEW){
+                        thread.start();
+
+                    }else {
+                        Log.d("thread starting", "thread startig another time");
+                        thread.interrupt();
+                        thread = new Thread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                try {
+
+                                    Log.d("BITMAP with toString()", bitmap.toString());
+                                    Log.d("BITMAP", BitMapToString(bitmap));
+                                    Log.d("usernane", username.getText().toString());
+                                    Log.d("password", password.getText().toString());
+                                    if(user_type.equals("d")){
+                                        Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap),doctorTypes.get(0) ));
+                                        Log.d("Doctor singed", "d");
+                                    }else{
+                                        Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap)));
+
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.start();
+                    }
                     startActivity(new Intent (signUp.this, MainActivity.class));
                 }
 
@@ -103,7 +135,8 @@ public class signUp extends AppCompatActivity {
 
         if (requestCode == 0) { // the pop up window of type selection
             if(resultCode == Activity.RESULT_OK){
-              doctorTypes =data.getStringArrayListExtra("doctorType");
+                doctor_type = data.getStringExtra("Type");
+              doctorTypes =data.getStringArrayListExtra("DoctorTypes");
                 thread.start();
                 startActivity(new Intent (signUp.this, MainActivity.class));
             }
@@ -149,8 +182,11 @@ public class signUp extends AppCompatActivity {
                 Log.d("password", password.getText().toString());
                 if(user_type.equals("d")){
                     Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap),doctorTypes.get(0) ));
+                    Log.d("Doctor singed", "d");
+                }else{
+                    Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap)));
+
                 }
-                Log.d("Server Responce", serverRequest.user_sign_up(user_type, username.getText().toString(),password.getText().toString(), BitMapToString(bitmap)));
             } catch (Exception e) {
                 e.printStackTrace();
             }

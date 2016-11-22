@@ -41,5 +41,5 @@ dependencies {
             [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.4.1'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.4.1']
     )
-    compile files('D:/AndroidStudioProjects/lifeSaver-Full-master/libs/libs/sinch-android-rtc-3.9.8.jar')
+    compile files('C:/lifesaver-final2/libs/libs/sinch-android-rtc-3.9.8.jar')
 }
