@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import okhttp3.Response;
  */
 public class ServerRequest {
 
-    String SERVER =  "https://e534c2aa.ngrok.io/";
+    String SERVER =  "https://280b854e.ngrok.io/";
     String value = "";
     Boolean check_request = false;
     //Patient[] patient_list;
@@ -68,6 +69,15 @@ public class ServerRequest {
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
+    }
+    public ArrayList<LatLng> get_locations(String c) throws IOException{
+        Request request = new Request.Builder()
+                .url(SERVER +"locations/"+ c)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        Log.d("LOCATIONS RECIEVED: ", response.toString());
+        return JSONtoLocations(response.body().string());
     }
 
     String get_doctor_chat(String username) throws IOException {
@@ -124,12 +134,14 @@ public class ServerRequest {
     }
 
 
-    public String add_diagnosis(String username, String category, String diagnosis) throws IOException {
+    public String add_diagnosis(String username, String category, String diagnosis, String lat, String lng) throws IOException {
         RequestBody body =  new FormBody.Builder()
 
                 .add("u", username)
                 .add("c", category)
                 .add("d", diagnosis)
+                .add("lat", lat)
+                .add("lng", lng)
                 .build();
         Request request = new Request.Builder()
                 .url(SERVER)
@@ -168,8 +180,33 @@ public class ServerRequest {
         return response.body().string();
     }
 
+    private ArrayList<LatLng> JSONtoLocations(String message){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+        try {
+
+            ArrayList<LatLng> patient_list = mapper.readValue(message,
+                    mapper.getTypeFactory().constructCollectionType(ArrayList.class,
+                            LatLng.class) );
+            Log.d("JSON convertion", " ################ success ###########");
+            return patient_list;
+        } catch(JsonGenerationException e){
+            Log.d("JSON convertion error", e.toString());
+            e.printStackTrace();
+
+        } catch (JsonMappingException e){
+            Log.d("JSON convertion error", e.toString());
+            e.printStackTrace();
+        } catch (IOException e){
+            Log.d("JSON convertion error", e.toString());
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private ArrayList<Patient> JSONtoPatient(String message){
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));

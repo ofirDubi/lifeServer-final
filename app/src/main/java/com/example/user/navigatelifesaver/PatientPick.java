@@ -137,17 +137,18 @@ public class PatientPick extends AppCompatActivity {
         });
     }
     void setPatient (){
-        if(srequest.patient_list.size() !=0 && srequest.patient_list !=null){
-            patient_name.setText("Patient's name: "+ srequest.patient_list.get(patient_num).getName());
-            patient_age.setText("Patient's age: " + srequest.patient_list.get(patient_num).getAge());
-            diagnosis.setText("Diagnosis is :" + srequest.patient_list.get(patient_num).getDiagnosis());
-            if(!srequest.patient_list.get(patient_num).getImageBitmap().equals(null)){
-                byte[] decodedString = Base64.decode(srequest.patient_list.get(patient_num).getImageBitmap(), Base64.URL_SAFE );
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                patient_picture.setImageBitmap(decodedByte);
-            }
-            patient_num = (patient_num+1)%srequest.patient_list.size();
-
+        if(srequest.patient_list !=null){
+            if(srequest.patient_list.size() !=0 ) {
+                patient_name.setText("Patient's name: " + srequest.patient_list.get(patient_num).getName());
+                patient_age.setText("Patient's age: " + srequest.patient_list.get(patient_num).getAge());
+                diagnosis.setText("Diagnosis is : " + srequest.patient_list.get(patient_num).getDiagnosis());
+                if (!srequest.patient_list.get(patient_num).getImageBitmap().equals(null)) {
+                    byte[] decodedString = Base64.decode(srequest.patient_list.get(patient_num).getImageBitmap(), Base64.URL_SAFE);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    patient_picture.setImageBitmap(decodedByte);
+                }
+               patient_num = (patient_num + 1) % srequest.patient_list.size();
+        }
         }else{
             patient_picture.setVisibility(View.INVISIBLE);
             patient_name.setText("No patients to show");

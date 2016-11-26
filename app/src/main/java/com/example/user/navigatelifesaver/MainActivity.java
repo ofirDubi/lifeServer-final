@@ -120,11 +120,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String response;
                  response = serverRequest.log_in(user_type, username.getText().toString(), userpassword.getText().toString());
-                Log.d("Sended request", response);
-                if(response.equals("true")){
+                Log.d("Response recived", response);
+                if(!(response.equals("false"))){
+                    Log.d("sign in good", "sign in good");
                     globalVars.setUSERNAME(username.getText().toString());
                     if(user_type.equals("p")){
                         globalVars.setType("patient");
+                        globalVars.setCategory(response);
                         startActivity(new Intent(MainActivity.this, startApp.class).putExtra("userID", username.getText().toString()));
                         return;
                     }else{

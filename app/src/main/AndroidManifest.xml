@@ -4,25 +4,27 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
-        android:largeHeap="true"
         android:name=".GlobalVars"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <uses-permission android:name="android.permission.INTERNET" />
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         <uses-permission android:name="android.permission.RECORD_AUDIO" />
         <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
         <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-        <uses-permission android:name="android.permission.CAMERA"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -35,19 +37,31 @@
         <activity android:name=".signUp" />
         <activity android:name=".Category" />
         <activity android:name=".Chat" />
-        <activity android:name=".headChoose"></activity>
-
+        <activity android:name=".headChoose" />
         <activity android:name=".PatientChat" />
         <activity android:name=".ChatView" />
-        <activity android:name=".PatientPick"/>
-        <activity android:name=".Pop"
-            android:theme="@style/AppTheme.CustomTheme">
+        <activity android:name=".PatientPick" />
+        <activity
+            android:name=".Pop"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity
+            android:name=".PopDoctor"
+            android:theme="@style/AppTheme.CustomTheme1"></activity>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
-        </activity>
-        <activity android:name=".PopDoctor"
-            android:theme="@style/AppTheme.CustomTheme1">
-
-        </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

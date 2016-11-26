@@ -3,14 +3,13 @@ package com.example.user.navigatelifesaver;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class startApp extends AppCompatActivity {
 
@@ -32,13 +31,13 @@ public class startApp extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[4];
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[5];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_action_attach, "Make new simptomise");
         drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_action_refresh, "List Of Simptomise");
         drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_action_done, "Help");
         drawerItem[3] = new ObjectDrawerItem(R.drawable.chat_icon, "Chat");
-
+        drawerItem[4] = new ObjectDrawerItem(R.drawable.chat_icon, "map");
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
 
         mDrawerList.setAdapter(adapter);
@@ -72,10 +71,8 @@ public class startApp extends AppCompatActivity {
             case 3:
 
                     startActivity(new Intent(startApp.this, ChatView.class));
-
-
-
-
+            case 4:
+                startActivity(new Intent(startApp.this, MapsActivity.class));
             default:
                 break;
         }

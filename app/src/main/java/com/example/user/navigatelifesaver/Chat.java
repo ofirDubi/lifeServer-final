@@ -1,7 +1,12 @@
 package com.example.user.navigatelifesaver;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -9,13 +14,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class Chat extends AppCompatActivity {
     String USERNAME;
     String diagnosis = "";
     String Category = "head";
-    int num = 0 ;
-    int checkButtonOne = 0 ;
-    int checkButtonTwo = 0 ;
+    int checkYes = 0 ;
+    int checkNo = 0 ;
+    int phase = 0;
     final ServerRequest serverRequest = new ServerRequest();
     GlobalVars globalVars;
     boolean is_sent;
@@ -49,10 +56,10 @@ public class Chat extends AppCompatActivity {
         forthLay.setVisibility(View.INVISIBLE);
 
 
-        final Button btnFirst = (Button)findViewById(R.id.button);
-        final Button btnSec = (Button)findViewById(R.id.button2);
+        final Button yes_button = (Button)findViewById(R.id.yes_button);
+        final Button no_button = (Button)findViewById(R.id.no_button);
 
-        Log.d("Category", Category);
+         Log.d("Category", Category);
 
         try {
             synchronized(this){
@@ -65,23 +72,25 @@ public class Chat extends AppCompatActivity {
         if(Category.equals("head"))
         {
             firstLin.setVisibility(View.VISIBLE);
-            btnFirst.setOnClickListener(new View.OnClickListener() {
+            assert yes_button != null;
+            yes_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ((checkButtonOne == 3 && checkButtonTwo == 1) || (checkButtonOne == 4 && checkButtonOne == 0) || !is_sent)
+                    if (phase == 3 && !is_sent)
                     {
                         //send the message to the server
                         Category = "general";
-                        diagnosis = "tinnitus";
-                        Log.d("USERNAME", USERNAME);
+                        diagnosis = "tinnitus" + diagnosis;
+//                        Log.d("USERNAME", USERNAME);
                         globalVars.setIsDiagnosed(true);
+                        globalVars.setCategory(Category);
                         is_sent = true;
                         thread.start();
 
                     }
-                    if (checkButtonOne == 0) {
-                        btnFirst.setText("Yes, I am over 55");
-                        btnSec.setText("No, I am Not over 55");
+                    if (phase == 0) {
+                        yes_button.setText("Yes, I am over 55");
+                        no_button.setText("No, I am Not over 55");
 
                         try {
                             synchronized (this) {
@@ -90,10 +99,12 @@ public class Chat extends AppCompatActivity {
                         } catch (InterruptedException ex) {
                         }
                         secLin.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
-                    } else if (checkButtonOne == 1) {
-                        btnFirst.setText("Yes, I was exposed to very loud noises");
-                        btnSec.setText("No, I don't remember I was exposed to loud noise");
+                        diagnosis += ", had significant injury";
+                        checkYes++;
+                        phase++;
+                    } else if (phase == 1) {
+                        yes_button.setText("Yes, I was exposed to very loud noises");
+                        no_button.setText("No, I don't remember I was exposed to loud noise");
 
                         try {
                             synchronized (this) {
@@ -102,10 +113,12 @@ public class Chat extends AppCompatActivity {
                         } catch (InterruptedException ex) {
                         }
                         thirdLay.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
-                    } else if (checkButtonOne == 2) {
-                        btnFirst.setText("Go out to see results");
-                        btnSec.setVisibility(View.INVISIBLE);
+                        diagnosis += ", patient is over 55 years old";
+                        checkYes++;
+                        phase++;
+                    } else if (phase == 2) {
+                        yes_button.setText("Go out to see results");
+                        no_button.setVisibility(View.INVISIBLE);
 
                         try {
                             synchronized (this) {
@@ -114,18 +127,20 @@ public class Chat extends AppCompatActivity {
                         } catch (InterruptedException ex) {
                         }
                         forthLay.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        diagnosis += "patient was exposed to very loud noises";
+                        checkYes++;
+                        phase++;
                     }
                 }
             });
 
-            btnSec.setOnClickListener(new View.OnClickListener() {
+            no_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkButtonTwo == 0)
+                    if(phase == 0)
                     {
-                        btnFirst.setText("Yes, I am over 55");
-                        btnSec.setText("No, I am Not over 55");
+                        yes_button.setText("Yes, I am over 55");
+                        no_button.setText("No, I am Not over 55");
 
                         try {
                             synchronized(this){
@@ -135,15 +150,18 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         thirdLay.setVisibility(View.VISIBLE);
-                        checkButtonTwo++;
+                        diagnosis+= "patient didn't had any significant injury";
+                        checkNo++;
+                        phase++;
                     }
 
 
-                    else if(checkButtonTwo == 1)
+                    else if(checkNo == 1)
                     {
-                        btnFirst.setText("Yes, I am over 55");
-                        btnSec.setText("No, I am Not over 55");
-                        checkButtonTwo++;
+                        yes_button.setText("Yes, I am over 55");
+                        no_button.setText("No, I am Not over 55");
+                        checkNo++;
+                        phase++;
                     }
                 }
             });
@@ -151,13 +169,13 @@ public class Chat extends AppCompatActivity {
 
         else if(Category.equals("chest"))
         {
-            btnFirst.setOnClickListener(new View.OnClickListener() {
+            yes_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkButtonOne == 0)
+                    if(checkYes == 0)
                     {
-                        btnFirst.setText("Yes, I am over 55");
-                        btnSec.setText("No, I am Not over 55");
+                        no_button.setText("Yes, I am over 55");
+                        yes_button.setText("No, I am Not over 55");
 
                         firstTV.setText("We are sorry to hear that you are suffering from chest pain.\n" +
                                 "Appearance of chest pain always requires physician assessment. " +
@@ -171,14 +189,14 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         secLin.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        checkYes++;
                     }
 
 
-                    else if(checkButtonOne == 1)
+                    else if(checkYes == 1)
                     {
-                        btnFirst.setText("Yes, I was exposed to very loud noises");
-                        btnSec.setText("No, I don't remember I was exposed to loud noise");
+                        yes_button.setText("Yes, I was exposed to very loud noises");
+                        no_button.setText("No, I don't remember I was exposed to loud noise");
 
                         try {
                             synchronized(this){
@@ -188,13 +206,13 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         thirdLay.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        checkYes++;
                     }
 
-                    else if(checkButtonOne == 2)
+                    else if(checkYes == 2)
                     {
-                        btnFirst.setText("Go out to see results");
-                        btnSec.setVisibility(View.INVISIBLE);
+                        yes_button.setText("Go out to see results");
+                        no_button.setVisibility(View.INVISIBLE);
 
                         try {
                             synchronized(this){
@@ -204,18 +222,18 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         forthLay.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        checkYes++;
                     }
                 }
             });
 
-            btnSec.setOnClickListener(new View.OnClickListener() {
+            yes_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkButtonTwo == 0)
+                    if(checkNo == 0)
                     {
-                        btnFirst.setText("Yes, I am over 55");
-                        btnSec.setText("No, I am Not over 55");
+                        yes_button.setText("Yes, I am over 55");
+                        no_button.setText("No, I am Not over 55");
 
                         try {
                             synchronized(this){
@@ -225,15 +243,15 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         thirdLay.setVisibility(View.VISIBLE);
-                        checkButtonTwo++;
+                        checkNo++;
                     }
 
 
-                    else if(checkButtonTwo == 1)
+                    else if(checkNo == 1)
                     {
-                        btnFirst.setText("Yes, I am over 55");
-                        btnSec.setText("No, I am Not over 55");
-                        checkButtonTwo++;
+                        yes_button.setText("Yes, I am over 55");
+                        no_button.setText("No, I am Not over 55");
+                        checkNo++;
                     }
                 }
             });
@@ -249,15 +267,15 @@ public class Chat extends AppCompatActivity {
 
             firstLin.setVisibility(View.VISIBLE);
             secLin.setVisibility(View.INVISIBLE);
-            btnFirst.setOnClickListener(new View.OnClickListener() {
+            yes_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkButtonOne == 0)
+                    if(checkYes == 0)
                     {
                         firstLin.setVisibility(View.VISIBLE);
 
-                        btnFirst.setText("Yes, my skin dry and itchy");
-                        btnSec.setText("No, my skin is just dry");
+                        yes_button.setText("Yes, my skin dry and itchy");
+                        no_button.setText("No, my skin is just dry");
 
                         try {
                             synchronized(this){
@@ -267,13 +285,13 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         startActivity(new Intent(Chat.this , Pop.class));
-                        checkButtonOne++;
+                        checkYes++;
                     }
 
-                    else if(checkButtonOne == 1)
+                    else if(checkYes == 1)
                     {
-                        btnFirst.setText("Yes, one or more are currect");
-                        btnSec.setText("No, I dont do anything from that list");
+                        yes_button.setText("Yes, one or more are currect");
+                        no_button.setText("No, I dont do anything from that list");
 
                         thirdTV.setText("First try using moisturizer. \n" +
                                 "If there are persistent itching and tingling, you may be suffering from eczema.\n" +
@@ -292,13 +310,13 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         secLin.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        checkYes++;
                     }
 
-                    else if(checkButtonOne == 2)
+                    else if(checkYes == 2)
                     {
-                        btnFirst.setText("Yes, I wash my hands often");
-                        btnSec.setText("No, I did not wash my hands often");
+                        yes_button.setText("Yes, I wash my hands often");
+                        no_button.setText("No, I did not wash my hands often");
 
                         forthTV.setText("It is important to avoid hot showers or very long. \n" +
                                 "Also, there really is a need to scrub the skin or soap and lather each centimeter of the body each day. \n" +
@@ -316,13 +334,13 @@ public class Chat extends AppCompatActivity {
                         }
 
                         thirdLay.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        checkYes++;
                     }
 
-                    else if (checkButtonOne == 3)
+                    else if (checkYes == 3)
                     {
-                        btnFirst.setText("Go to see results");
-                        btnSec.setVisibility(View.INVISIBLE);
+                        yes_button.setText("Go to see results");
+                        no_button.setVisibility(View.INVISIBLE);
 
                         try {
                             synchronized(this){
@@ -332,7 +350,7 @@ public class Chat extends AppCompatActivity {
                         catch(InterruptedException ex){
                         }
                         forthLay.setVisibility(View.VISIBLE);
-                        checkButtonOne++;
+                        checkYes++;
                     }
                 }
             });
@@ -345,9 +363,9 @@ public class Chat extends AppCompatActivity {
         {
             try {
                 Log.d("adding diagnosis", USERNAME);
-
-                serverRequest.add_diagnosis(USERNAME, Category, diagnosis);
-                startActivity(new Intent(Chat.this, ChatView.class));
+                Location location = new Location(getLastKnownLocation());
+               serverRequest.add_diagnosis(USERNAME, Category, diagnosis,  String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
+                startActivity(new Intent(Chat.this, MapsActivity.class));
                 Log.d("diagnosis added", USERNAME);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -355,5 +373,27 @@ public class Chat extends AppCompatActivity {
         }
 
     });
+    // Private method return last known location
+    private Location getLastKnownLocation() {
+        LocationManager mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return null;
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
 
 }
