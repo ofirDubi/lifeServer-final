@@ -365,8 +365,9 @@ public class Chat extends AppCompatActivity {
                 Log.d("adding diagnosis", USERNAME);
                 Location location = new Location(getLastKnownLocation());
                serverRequest.add_diagnosis(USERNAME, Category, diagnosis,  String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
-                startActivity(new Intent(Chat.this, MapsActivity.class));
                 Log.d("diagnosis added", USERNAME);
+                startActivity(new Intent(Chat.this, MapsActivity.class));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

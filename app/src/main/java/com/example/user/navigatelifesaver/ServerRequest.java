@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -25,7 +26,7 @@ import okhttp3.Response;
  */
 public class ServerRequest {
 
-    String SERVER =  "https://280b854e.ngrok.io/";
+    String SERVER =  "https://50a7db87.ngrok.io/";
     String value = "";
     Boolean check_request = false;
     //Patient[] patient_list;
@@ -34,7 +35,13 @@ public class ServerRequest {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient().newBuilder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(100, TimeUnit.SECONDS)
+            .build();
+
+
     //client.setConnectTimeout(30, TimeUnit.SECONDS); // connect timeout
     //client.setReadTimeout(30, TimeUnit.SECONDS);    // socket timeout
     public String user_sign_up( String type, String username, String password, String bitmap , String doctorType) throws IOException {
@@ -50,6 +57,7 @@ public class ServerRequest {
                 .url(SERVER +"signup")
                 .post(body)
                 .build();
+
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
@@ -185,11 +193,14 @@ public class ServerRequest {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         try {
-
-            ArrayList<LatLng> patient_list = mapper.readValue(message,
+            ArrayList<LatLng>  patient_list = new ArrayList<LatLng>();
+            ArrayList<Loc> loc_patient_list = mapper.readValue(message,
                     mapper.getTypeFactory().constructCollectionType(ArrayList.class,
-                            LatLng.class) );
+                            Loc.class) );
             Log.d("JSON convertion", " ################ success ###########");
+            for(int i=0; i<loc_patient_list.size(); i++){
+                patient_list.add(loc_patient_list.get(i).toLatLng());
+            }
             return patient_list;
         } catch(JsonGenerationException e){
             Log.d("JSON convertion error", e.toString());
