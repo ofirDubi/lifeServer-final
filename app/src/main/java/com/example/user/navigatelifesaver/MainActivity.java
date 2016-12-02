@@ -71,10 +71,11 @@ public class MainActivity extends AppCompatActivity {
                                     String response;
                                     response = serverRequest.log_in(user_type, username.getText().toString(), userpassword.getText().toString());
                                     Log.d("Sended request", response);
-                                    if(response.equals("true")){
+                                    if(!response.equals("false")){
                                         globalVars.setUSERNAME(username.getText().toString());
                                         if(user_type.equals("p")){
                                             globalVars.setType("patient");
+                                            globalVars.setCategory(response);
                                             startActivity(new Intent(MainActivity.this, startApp.class).putExtra("userID", username.getText().toString()));
                                             return;
                                         }else{

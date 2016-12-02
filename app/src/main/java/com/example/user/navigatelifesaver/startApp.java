@@ -69,10 +69,11 @@ public class startApp extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3:
-
                     startActivity(new Intent(startApp.this, ChatView.class));
+                break;
             case 4:
                 startActivity(new Intent(startApp.this, MapsActivity.class));
+                break;
             default:
                 break;
         }

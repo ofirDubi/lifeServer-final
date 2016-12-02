@@ -9,29 +9,33 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Loc {
     private double latitude;
-    private double longtitude;
+    private double longitude;
 
-    public Loc(double latitude, double longtitude){
+    public Loc(){
+        latitude = 0;
+        longitude = 0;
+    }
+    public Loc(double latitude, double longitude){
         this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.longitude = longitude;
     }
     public LatLng toLatLng(){
-        return new LatLng(latitude, longtitude);
+        return new LatLng(latitude, longitude);
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

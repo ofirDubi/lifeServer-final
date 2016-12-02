@@ -26,7 +26,7 @@ import okhttp3.Response;
  */
 public class ServerRequest {
 
-    String SERVER =  "https://50a7db87.ngrok.io/";
+    String SERVER =  "https://00f299e2.ngrok.io/";
     String value = "";
     Boolean check_request = false;
     //Patient[] patient_list;
@@ -78,14 +78,15 @@ public class ServerRequest {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-    public ArrayList<LatLng> get_locations(String c) throws IOException{
+    public ArrayList<LatLng> get_locations(String cat) throws IOException{
         Request request = new Request.Builder()
-                .url(SERVER +"locations/"+ c)
+                .url(SERVER +"locations/" + cat.substring(1, cat.length()-1))
                 .build();
 
         Response response = client.newCall(request).execute();
-        Log.d("LOCATIONS RECIEVED: ", response.toString());
-        return JSONtoLocations(response.body().string());
+        String res_body = response.body().string();
+        Log.d("LOCATIONS RECIEVED: ", res_body);
+        return JSONtoLocations(res_body);
     }
 
     String get_doctor_chat(String username) throws IOException {
@@ -197,6 +198,7 @@ public class ServerRequest {
             ArrayList<Loc> loc_patient_list = mapper.readValue(message,
                     mapper.getTypeFactory().constructCollectionType(ArrayList.class,
                             Loc.class) );
+            Log.d("JSON RESAULT", loc_patient_list.get(0).toLatLng().toString());
             Log.d("JSON convertion", " ################ success ###########");
             for(int i=0; i<loc_patient_list.size(); i++){
                 patient_list.add(loc_patient_list.get(i).toLatLng());
