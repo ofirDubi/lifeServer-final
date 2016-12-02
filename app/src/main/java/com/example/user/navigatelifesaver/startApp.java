@@ -24,8 +24,8 @@ public class startApp extends AppCompatActivity {
         setContentView(R.layout.activity_start_app);
 
 
-            USERNAME = ((GlobalVars) this.getApplication()).getUSERNAME();
-            globalVars = ((GlobalVars) getApplicationContext());
+        USERNAME = ((GlobalVars) this.getApplication()).getUSERNAME();
+        globalVars = ((GlobalVars) getApplicationContext());
 
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -33,11 +33,11 @@ public class startApp extends AppCompatActivity {
 
         ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[5];
 
-        drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_action_attach, "Make new simptomise");
-        drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_action_refresh, "List Of Simptomise");
-        drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_action_done, "Help");
+        drawerItem[0] = new ObjectDrawerItem(R.drawable.diaglogo, "Diagnose Yourself");
+        drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_action_refresh, "List Symptoms");
+        drawerItem[2] = new ObjectDrawerItem(R.drawable.info, "Help");
         drawerItem[3] = new ObjectDrawerItem(R.drawable.chat_icon, "Chat");
-        drawerItem[4] = new ObjectDrawerItem(R.drawable.chat_icon, "map");
+        drawerItem[4] = new ObjectDrawerItem(R.drawable.mapicon, "map");
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
 
         mDrawerList.setAdapter(adapter);
@@ -69,7 +69,7 @@ public class startApp extends AppCompatActivity {
                 fragment = new HelpFragment();
                 break;
             case 3:
-                    startActivity(new Intent(startApp.this, ChatView.class));
+                startActivity(new Intent(startApp.this, ChatView.class));
                 break;
             case 4:
                 startActivity(new Intent(startApp.this, MapsActivity.class));

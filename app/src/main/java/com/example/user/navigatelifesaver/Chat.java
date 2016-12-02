@@ -19,7 +19,7 @@ import java.util.List;
 public class Chat extends AppCompatActivity {
     String USERNAME;
     String diagnosis = "";
-    String Category = "head";
+    String Category = "ENT";
     int checkYes = 0 ;
     int checkNo = 0 ;
     int phase = 0;
@@ -69,7 +69,7 @@ public class Chat extends AppCompatActivity {
         catch(InterruptedException ex){
         }
 
-        if(Category.equals("head"))
+        if(Category.equals("ENT"))
         {
             firstLin.setVisibility(View.VISIBLE);
             assert yes_button != null;
@@ -79,7 +79,7 @@ public class Chat extends AppCompatActivity {
                     if (phase == 3 && !is_sent)
                     {
                         //send the message to the server
-                        Category = "general";
+                        Category = "ENT";
                         diagnosis = "tinnitus" + diagnosis;
 //                        Log.d("USERNAME", USERNAME);
                         globalVars.setIsDiagnosed(true);

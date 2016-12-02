@@ -20,12 +20,12 @@ public class PopDoctor extends Activity{
     String Type;
     ListView type_list;
     String[] ocupations = {
-            "general",
-            "head",
-            "skin",
-            "otolaryngologist",
+            "General",
+            "ENT",
+            "Dermatology",
+            "General surgeon",
             "Internal medicine",
-            "pediatrician",
+            "Pediatrician",
             "Done"
     }   ;
     int[] imageId;

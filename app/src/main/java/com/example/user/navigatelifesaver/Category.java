@@ -40,70 +40,86 @@ public class Category extends AppCompatActivity {
         btnArms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+             //   new LoadViewTask().execute();
                 what2Pass = 1;
+                selectActivity();
             }
         });
 
         btnEyes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+               // new LoadViewTask().execute();
                 what2Pass = 2;
+                selectActivity();
+
             }
         });
 
         btnBeten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+              //  new LoadViewTask().execute();
                 what2Pass = 3;
+                selectActivity();
+
             }
         });
 
         btnChest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+             //   new LoadViewTask().execute();
                 what2Pass = 4;
+                selectActivity();
+
             }
         });
 
         btnHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+              //  new LoadViewTask().execute();
                 what2Pass = 5;
+                selectActivity();
+
             }
         });
 
         btnLegs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+           //     new LoadViewTask().execute();
                 what2Pass = 6;
+                selectActivity();
+
             }
         });
 
         btnNose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+             //   new LoadViewTask().execute();
                 what2Pass = 7 ;
+                selectActivity();
+
             }
         });
 
         btnOther.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoadViewTask().execute();
+               // new LoadViewTask().execute();
                 what2Pass = 8;
+                selectActivity();
+
             }
         });
     }
-
+/*
     //To use the AsyncTask, it must be subclassed
     private class LoadViewTask extends AsyncTask<Void, Integer, Void> {
+
         //Before running code in separate thread
         @Override
         protected void onPreExecute() {
@@ -132,13 +148,13 @@ public class Category extends AppCompatActivity {
         }
 
         //The code to be executed in a background thread.
-        @Override
+
         protected Void doInBackground(Void... params) {
-            /* This is just a code that delays the thread execution 4 times,
-             * during 850 milliseconds and updates the current progress. This
-             * is where the code that is going to be executed on a background
-             * thread must be placed.
-             */
+             This is just a code that delays the thread execution 4 times,
+             during 850 milliseconds and updates the current progress. This
+              is where the code that is going to be executed on a background
+              thread must be placed.
+
             try {
                 //Get the current thread's token
                 synchronized (this) {
@@ -161,6 +177,7 @@ public class Category extends AppCompatActivity {
             return null;
         }
 
+
         //Update the progress
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -168,50 +185,58 @@ public class Category extends AppCompatActivity {
             progressDialog.setProgress(values[0]);
         }
 
+
+
+
         //after executing the code in the thread
         @Override
         protected void onPostExecute(Void result) {
             //close the progress dialog
             progressDialog.dismiss();
             //initialize the View
-            if (what2Pass == 1)
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","arms"));
-            }
-            else if(what2Pass == 2)
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","eyes"));
-            }
 
-            else if(what2Pass == 3)
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","beten"));
-            }
+        }
+    }
+*/
 
-            else if(what2Pass == 4)
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","chest"));
-            }
+    private void selectActivity(){
+        if (what2Pass == 1)
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","arms"));
+        }
+        else if(what2Pass == 2)
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","eyes"));
+        }
 
-            else if(what2Pass == 5)
-            {
-                startActivity(new Intent(Category.this, headChoose.class).putExtra("buttonPressed","head"));
-            }
+        else if(what2Pass == 3)
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","beten"));
+        }
 
-            else if(what2Pass == 6)
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","legs"));
-            }
+        else if(what2Pass == 4)
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","chest"));
+        }
 
-            else if (what2Pass == 7)
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","nose"));
-            }
+        else if(what2Pass == 5)
+        {
+            startActivity(new Intent(Category.this, headChoose.class).putExtra("buttonPressed","head"));
+        }
 
-            else
-            {
-                startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","other"));
-            }
+        else if(what2Pass == 6)
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","legs"));
+        }
+
+        else if (what2Pass == 7)
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","nose"));
+        }
+
+        else
+        {
+            startActivity(new Intent(Category.this, Chat.class).putExtra("buttonPressed","other"));
         }
     }
 }

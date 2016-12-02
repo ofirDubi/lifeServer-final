@@ -1,7 +1,12 @@
 package com.example.user.navigatelifesaver;
 
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -12,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private boolean load = true;
@@ -54,9 +60,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .snippet(((GlobalVars) getApplicationContext()).getCategory()));
         }
         // Add a marker in Sydney and move the camera
-
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(32.118856, 34.794485)));
+        Location temp = getLastKnownLocation();
+        LatLng mLoc = new LatLng(temp.getLatitude(),temp.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLoc,15));
     }
     Thread thread = new Thread(new Runnable()
     {
@@ -75,5 +81,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     });
 
-
+    // Private method return last known location
+    private Location getLastKnownLocation() {
+        LocationManager mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return null;
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
 }

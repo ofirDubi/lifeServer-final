@@ -80,7 +80,7 @@ public class ServerRequest {
     }
     public ArrayList<LatLng> get_locations(String cat) throws IOException{
         Request request = new Request.Builder()
-                .url(SERVER +"locations/" + cat.substring(1, cat.length()-1))
+                .url(SERVER +"locations/" + cat.replace("\"", ""))
                 .build();
 
         Response response = client.newCall(request).execute();
