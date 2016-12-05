@@ -116,8 +116,7 @@ public class Category extends AppCompatActivity {
             }
         });
     }
-/*
-    //To use the AsyncTask, it must be subclassed
+/*  //To use the AsyncTask, it must be subclassed
     private class LoadViewTask extends AsyncTask<Void, Integer, Void> {
 
         //Before running code in separate thread
@@ -197,6 +196,7 @@ public class Category extends AppCompatActivity {
 
         }
     }
+
 */
 
     private void selectActivity(){

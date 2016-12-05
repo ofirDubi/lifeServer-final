@@ -26,7 +26,7 @@ import okhttp3.Response;
  */
 public class ServerRequest {
 
-    String SERVER =  "https://00f299e2.ngrok.io/";
+    String SERVER =  "https://dd08c6ca.ngrok.io/";
     String value = "";
     Boolean check_request = false;
     //Patient[] patient_list;

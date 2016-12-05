@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class startApp extends AppCompatActivity {
@@ -18,6 +20,8 @@ public class startApp extends AppCompatActivity {
     private ListView mDrawerList;
     String USERNAME;
     GlobalVars globalVars;
+    Button swipe;
+    float dX, dY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,7 @@ public class startApp extends AppCompatActivity {
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
+        swipe = (Button) findViewById(R.id.swipe_button);
         ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[5];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.diaglogo, "Diagnose Yourself");
@@ -43,6 +47,10 @@ public class startApp extends AppCompatActivity {
         mDrawerList.setAdapter(adapter);
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+
+
+
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -54,10 +62,35 @@ public class startApp extends AppCompatActivity {
 
     }
 
+
+    public boolean onTouch(View view, MotionEvent event) {
+
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+
+                dX = view.getX() - event.getRawX();
+                dY = view.getY() - event.getRawY();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+
+                view.animate()
+                        .x(event.getRawX() + dX)
+                        .y(event.getRawY() + dY)
+                        .setDuration(0)
+                        .start();
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
     private void selectItem(int position) {
 
         Fragment fragment = null;
-
+        swipe.setVisibility(View.INVISIBLE);
         switch (position) {
             case 0:
                 fragment = new simptome();

@@ -14,7 +14,7 @@ android:layout_height="match_parent" >
     <Button
         android:background="@drawable/list_icon"
         android:layout_width="65dp"
-        android:id="@+id/button"
+        android:id="@+id/swipe_button"
         android:layout_height="93dp" />
 </FrameLayout>
 

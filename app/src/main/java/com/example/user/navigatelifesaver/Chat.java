@@ -172,7 +172,7 @@ public class Chat extends AppCompatActivity {
             yes_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkYes == 0)
+                    if(phase == 0)
                     {
                         no_button.setText("Yes, I am over 55");
                         yes_button.setText("No, I am Not over 55");
@@ -190,10 +190,12 @@ public class Chat extends AppCompatActivity {
                         }
                         secLin.setVisibility(View.VISIBLE);
                         checkYes++;
+                        phase++;
+                        diagnosis+= " patient had significant injury.";
                     }
 
 
-                    else if(checkYes == 1)
+                    else if(phase == 1)
                     {
                         yes_button.setText("Yes, I was exposed to very loud noises");
                         no_button.setText("No, I don't remember I was exposed to loud noise");
@@ -207,6 +209,8 @@ public class Chat extends AppCompatActivity {
                         }
                         thirdLay.setVisibility(View.VISIBLE);
                         checkYes++;
+                        phase++;
+                        diagnosis+= " patient had this symptoms before.";
                     }
 
                     else if(checkYes == 2)
