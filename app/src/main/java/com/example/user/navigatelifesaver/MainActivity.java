@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     EditText userpassword;
     RadioGroup type;
     String user_type = "p";
-    GlobalVars globalVars;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnPatient = (Button)findViewById(R.id.btnSignIn);
         username = (EditText)findViewById(R.id.etUser);
         userpassword = (EditText)findViewById(R.id.etPass);
-         globalVars = ((GlobalVars) getApplicationContext());
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
                                     response = serverRequest.log_in(user_type, username.getText().toString(), userpassword.getText().toString());
                                     Log.d("Sended request", response);
                                     if(!response.equals("false")){
-                                        globalVars.setUSERNAME(username.getText().toString());
+                                       GlobalVars.setUSERNAME(username.getText().toString());
                                         if(user_type.equals("p")){
-                                            globalVars.setType("patient");
-                                            globalVars.setCategory(response);
+                                            GlobalVars.setType("patient");
+                                            GlobalVars.setCategory(response);
                                             startActivity(new Intent(MainActivity.this, startApp.class).putExtra("userID", username.getText().toString()));
                                             return;
                                         }else{
-                                            globalVars.setType("doctor");
+                                            GlobalVars.setType("doctor");
                                             startActivity(new Intent(MainActivity.this, PatientPick.class).putExtra("userID", username.getText().toString()));
                                             return;
                                         }
@@ -124,14 +124,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Response recived", response);
                 if(!(response.equals("false"))){
                     Log.d("sign in good", "sign in good");
-                    globalVars.setUSERNAME(username.getText().toString());
+                    GlobalVars.setUSERNAME(username.getText().toString());
                     if(user_type.equals("p")){
-                        globalVars.setType("patient");
-                        globalVars.setCategory(response);
+                        GlobalVars.setType("patient");
+                       GlobalVars.setCategory(response);
                         startActivity(new Intent(MainActivity.this, startApp.class).putExtra("userID", username.getText().toString()));
                         return;
                     }else{
-                        globalVars.setType("doctor");
+                        GlobalVars.setType("doctor");
                         startActivity(new Intent(MainActivity.this, PatientPick.class).putExtra("userID", username.getText().toString()));
                         return;
                     }

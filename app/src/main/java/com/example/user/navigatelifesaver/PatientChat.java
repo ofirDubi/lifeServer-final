@@ -49,7 +49,7 @@ public class PatientChat extends AppCompatActivity {
 
             //The key argument here must match that used in the other activity
         }
-        USER_ID = ((GlobalVars) this.getApplication()).getUSERNAME();
+        USER_ID = GlobalVars.getUSERNAME();
         Log.d("USER_ID", USER_ID);
         Toast.makeText(PatientChat.this, "Started",
                 Toast.LENGTH_LONG).show();

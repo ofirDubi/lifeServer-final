@@ -40,7 +40,7 @@ public class PatientPick extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_pick);
-        USERNAME = ((GlobalVars) this.getApplication()).getUSERNAME();
+        USERNAME = GlobalVars.getUSERNAME();
 
 
         patient_picture = (ImageView) findViewById(R.id.patient_picture);

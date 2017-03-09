@@ -6,38 +6,37 @@ import android.app.Application;
  * Created by ofir on 22/10/2016.
  */
 
-public class GlobalVars extends Application {
-    private String USERNAME;
-    private boolean isDiagnosed;
-    private String Type;
-    private String category;
-    public String getUSERNAME() {
+public class GlobalVars {
+    private static String USERNAME;
+    private static boolean isDiagnosed;
+    private static String Type;
+    private static String category;
+    public static String getUSERNAME() {
         return USERNAME;
     }
-    public String getCategory(){
+    public static String getCategory(){
         return category;
     }
-    public void setCategory(String category){
-        this.category = category;
+    public static void setCategory(String Category){
+        category = Category;
     }
-    public void setUSERNAME(String USERNAME) {
-        this.USERNAME = USERNAME;
+    public static void setUSERNAME(String username) {
+        USERNAME = username;
     }
 
-    public boolean getIsDiagnosed() {
+    public static boolean getIsDiagnosed() {
         return isDiagnosed;
     }
 
-    public void setIsDiagnosed(boolean isDiagnosed) {
-        this.isDiagnosed = isDiagnosed;
+    public static void setIsDiagnosed(boolean isdiagnosed) {
+        isDiagnosed = isdiagnosed;
     }
 
-    public String getType() {
+    public static String getType() {
         return Type;
     }
 
-    public void setType(String Type) {
-        this.Type = Type;
+    public static void setType(String type) { Type = type;
     }
 }
 

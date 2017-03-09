@@ -24,7 +24,7 @@ public class Chat extends AppCompatActivity {
     int checkNo = 0 ;
     int phase = 0;
     final ServerRequest serverRequest = new ServerRequest();
-    GlobalVars globalVars;
+
     boolean is_sent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +35,8 @@ public class Chat extends AppCompatActivity {
         if(extras !=null) {
           //  Category = extras.getString("buttonPressed");
         }
-        USERNAME = ((GlobalVars) this.getApplication()).getUSERNAME();
-        globalVars = ((GlobalVars) getApplicationContext());
+        USERNAME = GlobalVars.getUSERNAME();
+
 
         final LinearLayout firstLin = (LinearLayout)findViewById(R.id.layout2);
         final LinearLayout secLin = (LinearLayout)findViewById(R.id.layout3);
@@ -82,8 +82,8 @@ public class Chat extends AppCompatActivity {
                         Category = "ENT";
                         diagnosis = "tinnitus" + diagnosis;
 //                        Log.d("USERNAME", USERNAME);
-                        globalVars.setIsDiagnosed(true);
-                        globalVars.setCategory(Category);
+                        GlobalVars.setIsDiagnosed(true);
+                        GlobalVars.setCategory(Category);
                         is_sent = true;
                         thread.start();
 

@@ -24,18 +24,18 @@ import okhttp3.Response;
 /**
  * Created by Dubi on 16/08/2016.
  */
-public class ServerRequest {
+public  class ServerRequest {
 
-    String SERVER =  "https://dd08c6ca.ngrok.io/";
-    String value = "";
-    Boolean check_request = false;
+    static String SERVER =  "https://dd08c6ca.ngrok.io/";
+    static String value = "";
+    static Boolean check_request = false;
     //Patient[] patient_list;
-    ArrayList<Patient> patient_list;
+    static ArrayList<Patient> patient_list;
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
-    OkHttpClient client = new OkHttpClient().newBuilder()
+    static OkHttpClient client = new OkHttpClient().newBuilder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS)
@@ -44,7 +44,7 @@ public class ServerRequest {
 
     //client.setConnectTimeout(30, TimeUnit.SECONDS); // connect timeout
     //client.setReadTimeout(30, TimeUnit.SECONDS);    // socket timeout
-    public String user_sign_up( String type, String username, String password, String bitmap , String doctorType) throws IOException {
+    public static String user_sign_up( String type, String username, String password, String bitmap , String doctorType) throws IOException {
         Log.d("DOCTORSINGEDUP", "******************************");
         RequestBody body =  new FormBody.Builder()
                 .add("t", type)
@@ -62,7 +62,7 @@ public class ServerRequest {
         return response.body().string();
     }
 
-    public String user_sign_up( String type, String username, String password, String bitmap) throws IOException {
+    public static String user_sign_up( String type, String username, String password, String bitmap) throws IOException {
         RequestBody body =  new FormBody.Builder()
                 .add("t", type)
                 .add("u", username)
@@ -78,7 +78,7 @@ public class ServerRequest {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-    public ArrayList<LatLng> get_locations(String cat) throws IOException{
+    public static ArrayList<LatLng> get_locations(String cat) throws IOException{
         Request request = new Request.Builder()
                 .url(SERVER +"locations/" + cat.replace("\"", ""))
                 .build();
@@ -89,7 +89,7 @@ public class ServerRequest {
         return JSONtoLocations(res_body);
     }
 
-    String get_doctor_chat(String username) throws IOException {
+    static String get_doctor_chat(String username) throws IOException {
 
         Request request = new Request.Builder()
                 .url(SERVER + "chat/"+username)
@@ -101,7 +101,7 @@ public class ServerRequest {
 
 
     }
-    String get_patient_chat(String username) throws IOException {
+    static String get_patient_chat(String username) throws IOException {
 
         Request request = new Request.Builder()
                 .url(SERVER + "pchat/" + username)
@@ -111,7 +111,7 @@ public class ServerRequest {
         Log.d("RAW_RESPONCE", response.toString());
         return response.body().string();
     }
-    public String log_in(String type, String username, String password)throws IOException {
+    public static String log_in(String type, String username, String password)throws IOException {
         RequestBody body =  new FormBody.Builder()
                 .add("t", type)
                 .add("u", username)
@@ -127,7 +127,7 @@ public class ServerRequest {
     }
 
 
-    public String add_to_chat( String du, String pu) throws IOException {
+    public static String add_to_chat( String du, String pu) throws IOException {
         RequestBody body =  new FormBody.Builder()
 
                 .add("du", du)
@@ -143,7 +143,7 @@ public class ServerRequest {
     }
 
 
-    public String add_diagnosis(String username, String category, String diagnosis, String lat, String lng) throws IOException {
+    public static String add_diagnosis(String username, String category, String diagnosis, String lat, String lng) throws IOException {
         RequestBody body =  new FormBody.Builder()
 
                 .add("u", username)
@@ -161,7 +161,7 @@ public class ServerRequest {
         return response.body().string();
     }
 
-    public void doctor_view_setup(String username) {
+    public static void doctor_view_setup(String username) {
         try
         {
             value = req( SERVER + username);
@@ -179,7 +179,7 @@ public class ServerRequest {
         }
     }
 
-    String req(String url) throws IOException {
+    static String  req(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -189,7 +189,7 @@ public class ServerRequest {
         return response.body().string();
     }
 
-    private ArrayList<LatLng> JSONtoLocations(String message){
+    private static ArrayList<LatLng> JSONtoLocations(String message){
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
@@ -218,7 +218,7 @@ public class ServerRequest {
         return null;
     }
 
-    private ArrayList<Patient> JSONtoPatient(String message){
+    private static ArrayList<Patient> JSONtoPatient(String message){
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

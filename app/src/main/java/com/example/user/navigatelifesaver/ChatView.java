@@ -25,8 +25,8 @@ public class ChatView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         thread.start();
-        USERNAME = ((GlobalVars) this.getApplication()).getUSERNAME();
-        Type = ((GlobalVars) this.getApplication()).getType();
+        USERNAME = GlobalVars.getUSERNAME();
+        Type = GlobalVars.getType();
         while(!load_complite){
 
         }

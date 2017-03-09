@@ -19,7 +19,7 @@ public class startApp extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     String USERNAME;
-    GlobalVars globalVars;
+
     Button swipe;
     float dX, dY;
     @Override
@@ -28,8 +28,8 @@ public class startApp extends AppCompatActivity {
         setContentView(R.layout.activity_start_app);
 
 
-        USERNAME = ((GlobalVars) this.getApplication()).getUSERNAME();
-        globalVars = ((GlobalVars) getApplicationContext());
+        USERNAME = GlobalVars.getUSERNAME();
+
 
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

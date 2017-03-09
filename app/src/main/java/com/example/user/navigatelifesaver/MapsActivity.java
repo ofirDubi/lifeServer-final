@@ -57,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions()
                     .position(locs.get(i))
                     .title("Patient similiar to you")
-                    .snippet(((GlobalVars) getApplicationContext()).getCategory()));
+                    .snippet(GlobalVars.getCategory()));
         }
         // Add a marker in Sydney and move the camera
         Location temp = getLastKnownLocation();
@@ -71,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             try {
 
-                locs =  serverRequest.get_locations( ((GlobalVars) getApplicationContext()).getCategory());
+                locs =  serverRequest.get_locations( GlobalVars.getCategory());
                 load = false;
                 Log.d("Loccs:" , locs.get(0).toString());
 
